@@ -12,15 +12,26 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-app.use(cors({
-  origin:  "http://localhost:5173/",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"]
-}));
+// Configure CORS with proper origin handling
+const allowedOrigins = [
+  "http://localhost:5173", // Local frontend (development)
+  "https://your-production-domain.com" // Replace with your production frontend domain
+];
 
-
-// Configure CORS with proper origin
-
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, Postman, etc.)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
+  })
+);
 
 // Validate required environment variables
 if (!process.env.MONGODB_URI) {
@@ -30,7 +41,7 @@ if (!process.env.MONGODB_URI) {
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => {
     console.error("Error connecting to MongoDB:", err.message);
@@ -94,12 +105,10 @@ app.get("/api/analysis/:id", async (req, res) => {
   }
 });
 
-
 // Default endpoint
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 5000;
