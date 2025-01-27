@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
+
 import axios from "axios"
 import { Bar } from "react-chartjs-2"
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js"
@@ -47,11 +48,13 @@ function Results() {
   // Get the analysis ID from the URL parameters
   const { id } = useParams()
 
+  const BASE_URL="http://localhost:5000";
+
   useEffect(() => {
     // Function to fetch the analysis data from the backend API
     const fetchAnalysis = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/analysis/${id}`)
+        const response = await axios.get(`${BASE_URL}/api/analysis/${id}`)
         setAnalysis(response.data)
       } catch (error) {
         console.error("Error fetching analysis:", error)

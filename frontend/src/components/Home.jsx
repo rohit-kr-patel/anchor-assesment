@@ -1,6 +1,9 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
+
+
+
 
 function Home() {
   // State to store the video URL input by the user
@@ -10,13 +13,14 @@ function Home() {
   // Hook to navigate to different routes programmatically
   const navigate = useNavigate()
 
+  const BASE_URL="http://localhost:5000";
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
     try {
       // Send a POST request to the backend API with the video URL
-      const response = await axios.post("http://localhost:5000/api/analyze", { videoUrl })
+      const response = await axios.post(`${BASE_URL}/api/analyze`, { videoUrl })
       // Navigate to the results page with the response data ID
       navigate(`/results/${response.data.id}`)
     } catch (error) {
