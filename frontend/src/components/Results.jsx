@@ -48,7 +48,7 @@ function Results() {
   // Get the analysis ID from the URL parameters
   const { id } = useParams()
 
-  const BASE_URL="http://localhost:5000";
+  const BASE_URL="https://backend-pi-inky.vercel.app";
 
   useEffect(() => {
     // Function to fetch the analysis data from the backend API

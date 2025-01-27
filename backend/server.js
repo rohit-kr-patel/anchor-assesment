@@ -12,11 +12,15 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-
+app.use(cors({
+  origin:  "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 
 // Configure CORS with proper origin
-app.use(cors());
+
 
 // Validate required environment variables
 if (!process.env.MONGODB_URI) {
