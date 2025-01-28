@@ -13,7 +13,7 @@ function Home() {
   // Hook to navigate to different routes programmatically
   const navigate = useNavigate()
 
-  const BASE_URL="https://backend-pi-inky.vercel.app";
+  const BASE_URL="https://backend-git-main-rohit-kr-patels-projects.vercel.app";
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault()
